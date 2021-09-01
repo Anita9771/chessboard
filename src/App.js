@@ -1,25 +1,30 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Chessboard from "chessboardjsx";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+const ChessRoom = () => {
+  return ( 
+    <div className="chessroom">
+      <h1>This is a chessroom</h1>
+      <div className="chessboard">
+      <React.Fragment>
+          <Chessboard width={500} id="startPos" position="start" />
+          <Chessboard width={500} id="startPos" position="start" />
+          <Chessboard width={500} id="startPos" position="start" />
+          <Chessboard width={500} id="startPos" position="start" />
+          <Chessboard width={500} id="startPos" position="start" />
+      </React.Fragment>
+      </div>
     </div>
-  );
+   );
 }
 
-export default App;
+//  calcWidth={(size) =>
+// size.screenWidth > maxWidth &&
+// size.screenHeight > maxWidth
+//   ? maxWidth
+//   : Math.min(size.screenWidth, size.screenHeight)
+// }
+ 
+export default ChessRoom;
