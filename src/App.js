@@ -1,30 +1,44 @@
-import React from 'react';
-import './App.css';
-import Chessboard from "chessboardjsx";
+import "./App.css";
+import React, { useState, useEffect, useRef } from "react"
+import Chessboard from "chessboardjsx"
+import Chess from "chess.js"
 
 
-const ChessRoom = () => {
-  return ( 
-    <div className="chessroom">
-      <h1>This is a chessroom</h1>
-      <div className="chessboard">
-      <React.Fragment>
-          <Chessboard width={500} id="startPos" position="start" />
-          <Chessboard width={500} id="startPos" position="start" />
-          <Chessboard width={500} id="startPos" position="start" />
-          <Chessboard width={500} id="startPos" position="start" />
-          <Chessboard width={500} id="startPos" position="start" />
-      </React.Fragment>
-      </div>
-    </div>
-   );
+
+const App = () => {
+    const [fen, setFen] = useState("start")
+
+    let game = useRef(null);
+  
+    useEffect(() => {
+      game.current = new Chess();
+    }, [])
+  
+    const onDrop = ({sourceSquare, targetSquare}) => {
+      let move = game.current.move({
+        from: sourceSquare,
+        to: targetSquare
+      })
+  
+      if(move === null) return;
+  
+      setFen(game.current.fen())
+    }
+  
+  
+    const resetGame = () => {
+      game.current.clear();
+      game.current.reset();
+      setFen("start")
+    }
+    return ( 
+        <div className="board">
+            {
+              game.current && game.current.game_over() ? <div className="game-status"><h2>GAME OVER </h2><br/><button onClick = { resetGame }>REPLAY</button></div> : <span></span>
+            }
+          <Chessboard width = { 400 } id="positionObject" position={ fen } onDrop = {onDrop} />
+          </div>
+     );
 }
-
-//  calcWidth={(size) =>
-// size.screenWidth > maxWidth &&
-// size.screenHeight > maxWidth
-//   ? maxWidth
-//   : Math.min(size.screenWidth, size.screenHeight)
-// }
  
-export default ChessRoom;
+export default App;
